@@ -10,11 +10,19 @@ class User(models.Model):
         return self.name
 
 
+class OfferCategory(models.Model):
+    name = models.CharField(u'カテゴリ名', max_length=20)
+    count = models.IntegerField(u'offer数', default=0)
+
+    def __str__(self):
+        return self.name
+
+
 class Offer(models.Model):
     title = models.CharField(u'タイトル', max_length=30)
     content = models.TextField(u'内容', max_length=500)
     location = models.CharField(u'勤務地', max_length=20)
-    contract_period = models.CharField(u'契約期間', max_length=20)
+    contract_period = models.IntegerField(u'契約期間')
     required_skills = models.CharField(u'必須スキル', max_length=50)
     interview_times = models.CharField(u'商談回数', max_length=2)
     work_hours = models.CharField(u'就業時間', max_length=20)
