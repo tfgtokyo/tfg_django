@@ -10,5 +10,5 @@ def index(request):
 
     # offers = Offer.objects.all()
     # return render(request, 'index.html', {'offers': offers})
-    offerCategories = OfferCategory.objects.all()
+    offerCategories = OfferCategory.objects.all().order_by("-count")
     return render(request, 'index.html', {'offerCategories': offerCategories})
