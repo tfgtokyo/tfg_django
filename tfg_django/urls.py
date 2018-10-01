@@ -16,13 +16,31 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 import xadmin
-from users.views import login
+# from users.views import login, signup
+from django.contrib.auth import views as auth_views
+from users import views as users_views
 
 urlpatterns = [
     # path('admin/', admin.site.urls),
     path('xadmin/', xadmin.site.urls),
-    path('', include('offers.urls')),
-    path('index/', include('offers.urls')),
-    path('offers/', include('offers.urls')),
-    path('login/', login, name="login")
+
+    path('', include('offers.urls'), name='index'),
+    path('index/', include('offers.urls'), name='index'),
+    # path('offers/', include('offers.urls')),
+
+    path('users/', include('django.contrib.auth.urls')),
+
+    # path('signup/', signup, name="signup"),
+    path('signup/', users_views.signup, name='signup'),
+
+    # path('login/', login, name="login")
+    # path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
+
+    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+
+    path('password_reset/',
+         auth_views.PasswordResetView.as_view(
+             template_name='password_reset.html'),
+         name='password_reset'
+         ),
 ]
