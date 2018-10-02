@@ -17,9 +17,11 @@
         </div>
         <div class="text-center py-2">
             <small>
-                <a href="{% url 'signup' %}">新規取得</a>
+                <a href="{% url 'signup' %}" class="text-muted">新規取得</a>
                 &nbsp&nbsp&nbsp
-                <a href="#" class="text-muted">パスワードを忘れた方</a>
+                <a href="{% url 'password_reset' %}" class="text-muted">パスワードを忘れた方</a>
+                &nbsp&nbsp&nbsp
+                <a href="javascript:history.go(-1)" class="text-muted">戻る</a>
             </small>
         </div>
     </div>
