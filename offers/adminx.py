@@ -7,8 +7,11 @@ from xadmin import views
 #     enable_themes = True
 #     use_bootswatch = True
 
+# import_excel = True
 
 # change global setting
+
+
 class GlobalSettings(object):
     site_title = "TFG.TOKYO 管理シスタム"
     site_footer = "tfg.tokyo"

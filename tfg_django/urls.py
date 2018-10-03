@@ -18,14 +18,16 @@ from django.urls import path, include
 import xadmin
 # from users.views import login, signup
 from django.contrib.auth import views as auth_views
+from django.views.generic import TemplateView
 from users import views as users_views
+from offers.views import OfferListView
 
 urlpatterns = [
     # path('admin/', admin.site.urls),
     path('xadmin/', xadmin.site.urls),
 
-    path('', include('offers.urls'), name='index'),
-    path('index/', include('offers.urls'), name='index'),
+    path('', TemplateView.as_view(template_name="index.html"), name="index"),
+    # path('index/', include('offers.urls')),
     # path('offers/', include('offers.urls')),
 
     path('users/', include('django.contrib.auth.urls')),
@@ -44,6 +46,5 @@ urlpatterns = [
     path('settings/password/', auth_views.PasswordChangeView.as_view(
         template_name='password_change.html'), name='password_change'),
 
-    # path('settings/password/done/', auth_views.PasswordChangeDoneView.as_view(
-    #     template_name='password_change_done.html'), name='password_change_done'),
+    path('offerList/', OfferListView.as_view(), name="offerList"),
 ]

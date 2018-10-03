@@ -23,6 +23,7 @@ class OfferCategory(models.Model):
 
 
 class Offer(models.Model):
+    OfferCategory = models.name = models.ForeignKeyField(OfferCategory, verbose_name='カテゴリ名')
     title = models.CharField(verbose_name='タイトル', max_length=30)
     content = models.TextField(verbose_name='内容', max_length=500)
     location = models.CharField(verbose_name='勤務地', max_length=20)
@@ -41,6 +42,10 @@ class Offer(models.Model):
     last_modified_date = models.DateTimeField(
         verbose_name='最終更新日', auto_now=True)
     last_modified_by = models.CharField(verbose_name='最終更新者', max_length=30)
+
+    click_num = models.IntegerField(verbose_name='点击数', default=0)
+    fav_num = models.IntegerField(verbose_name='收藏数', default=0)
+    apply_num = models.IntegerField(verbose_name='応募数', default=0)
 
     class Meta:
         verbose_name = "案件一覧"

@@ -1,14 +1,14 @@
 .searchbox {
-    width: 460px;
     height: 40px;
     margin-top: 40px;
     border: 2px solid #717171;
     background: #fff;
+    padding-right: 0px;
 }
 
 
 
-
+/*
 .selectContainer {
     margin: 5px;
     width: 80px;
@@ -17,23 +17,23 @@
     position: relative;
 }
 
-.selectOption {
+ .selectOption {
     color: #67ae56;
     background: url(../img/select_arrow.png) no-repeat 85% 60%;
     display: block;
     cursor: pointer;
-}
+} */
 
 .searchbox input {
-    width: 320px;
+    width: 80%;
     height: 20px;
     margin-top: 10px;
     border: 0;
-    border-left: 1px solid #cecece;
+    /* border-left: 1px solid #cecece; */
     text-indent: 10px;
 }
 
-.selectMenu {
+/* .selectMenu {
     width: 90px;
     border: 1px solid #67ae56;
     background: #fff;
@@ -43,10 +43,11 @@
     margin-top: 6px;
     position: relative;
     z-index: 99;
-}
+} */
 
 .search_btn {
     background: #717171;
     cursor: pointer;
     border: 0px;
+    padding: 0;
 }

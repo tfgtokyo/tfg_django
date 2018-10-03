@@ -1,40 +1,17 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
 
-{% comment %} {% block body %}
-<h2 class="text-center">カテゴリ一覧</h2>
-{% endblock %} {% endcomment %}
-{% block style %}
+<title>{% block title %}ホーム{% endblock %}</title>
+
+{% block custom_css %}
 <link rel="stylesheet" href="{% static 'css/style.css' %}">
 {% endblock %}
+
 {% block content %}
-<div class="searchbox fr">
-    <div class="selectContainer fl">
-        <span class="selectOption" id="jsSelectOption" data-value="course">
-            公开课
-        </span>
-        <ul class="selectMenu" id="jsSelectMenu">
-            <li data-value="course">公开课</li>
-            <li data-value="org">课程机构</li>
-            <li data-value="teacher">授课老师</li>
-        </ul>
-    </div>
+<div class="searchbox fr col-lg-4 col-md-6 col-sm-8">
     <input id="search_keywords" class="fl" type="text" value="" placeholder="検索..." />
     <img class="search_btn fr" id="jsSearchBtn" src="{% static 'img/search_btn.png'%}" />
 </div>
-{% comment %} <form class="form-inline">
-    <div class="input-group">
-        <span class="input-group-addon">@</span>
-        <input list="dl" type="text" class="form-control" placeholder="Search" />
-        <datalist id="dl">
-            <option value="IE"></option>
-            <option value="Firefox"></option>
-            <option value="chrome"></option>
-            <option value="safari"></option>
-        </datalist>
-    </div>
-    <button class="btn btn-success" type="submit">search</button>
-</form> {% endcomment %}
 
 <div class="list-group">
     {% for offerCategory in offerCategories %}
