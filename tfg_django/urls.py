@@ -14,13 +14,13 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, re_path, include
 import xadmin
 # from users.views import login, signup
 from django.contrib.auth import views as auth_views
 from django.views.generic import TemplateView
 from users import views as users_views
-from offers.views import OfferListView
+from offers.views import CategoryListView, OfferListView
 
 urlpatterns = [
     # path('admin/', admin.site.urls),
@@ -46,5 +46,7 @@ urlpatterns = [
     path('settings/password/', auth_views.PasswordChangeView.as_view(
         template_name='password_change.html'), name='password_change'),
 
-    path('offerList/', OfferListView.as_view(), name="offerList"),
+    path('index/', CategoryListView.as_view(), name="index"),
+    re_path(r'^offerList/(?P<category_id>\d+)/$',
+            OfferListView.as_view(), name="offerList"),
 ]

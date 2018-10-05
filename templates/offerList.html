@@ -2,11 +2,15 @@
 {% load staticfiles %}
 
 <title>{% block title %}案件一覧{% endblock %}</title>
-{% block content %}
-<div>
-    offerList
 
+{% block content %}
+<div class="list-group">
+    {% for offer in offerList%}
+    <div>
+        {{offer.title}}
+    </div>
+    {% endfor%}
+    {% endblock %}
 </div>
-{% endblock %}
 
 </html>

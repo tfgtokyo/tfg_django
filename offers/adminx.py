@@ -24,10 +24,10 @@ class OfferCategoryAdmin(object):
 
 class OffersAdmin(object):
     list_display = ['title', 'create_date', 'create_by',
-                    'last_modified_date', 'last_modified_by']
-    search_fields = ['title', 'create_by']
+                    'last_modified_date', 'last_modified_by', 'click_nums', 'fav_nums', 'apply_nums']
+    search_fields = ['title', 'create_by', 'click_nums', 'fav_nums', 'apply_nums']
     list_filter = ['title', 'create_date', 'create_by',
-                   'last_modified_date', 'last_modified_by']
+                   'last_modified_date', 'last_modified_by', 'click_nums', 'fav_nums', 'apply_nums']
 
 
 # change themes
