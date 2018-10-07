@@ -23,5 +23,12 @@ class CategoryListView(View):
 class OfferListView(View):
     def get(self, request, category_id):
         category = OfferCategory.objects.get(id=int(category_id))
-        offerList = category.offer_set.all().filter(isActive=0)
+        offerList = category.offer_set.values(
+            'id', 'title', 'pub_time', 'click_nums', 'fav_nums', 'apply_nums').filter(isActive=0).order_by("-pub_time")
         return render(request, "offerList.html", {'offerList': offerList})
+
+
+class OfferDetailView(View):
+    def get(self, request, offer_id):
+        offerDetail = Offer.objects.get(id=int(offer_id))
+        return render(request, "offerDetail.html", {'offerDetail': offerDetail})

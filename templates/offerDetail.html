@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+<title>{% block title %}案件詳細{% endblock %}</title>
+
+{% block content %}
+<div class="list-group">
+    {{offerDetail.title}}
+    {{offerDetail.content}}
+    {{offerDetail.location}}
+    {{offerDetail.contract_period}}
+    {{offerDetail.required_skills}}
+    {{offerDetail.interview_times}}
+    {{offerDetail.work_hours}}
+    {{offerDetail.time_range}}
+    {{offerDetail.price}}
+    {{offerDetail.contract_type}}
+    {{offerDetail.remark}}
+</div>
+{% endblock %}
+</div>
+
+</html>

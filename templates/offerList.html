@@ -6,9 +6,13 @@
 {% block content %}
 <div class="list-group">
     {% for offer in offerList%}
-    <div>
-        {{offer.title}}
-    </div>
+    <a href="{% url 'offerDetail' offer.id %}" class="list-group-item list-group-item-action">
+        <h2 class="font-weight-bold">{{offer.title}}</h2>
+        <p>公開日:{{offer.pub_time}}</p>
+        <p>{{offer.click_nums}}</p>
+        <p>{{offer.fav_nums}}</p>
+        <p>{{offer.apply_nums}}</p>
+    </a>
     {% endfor%}
     {% endblock %}
 </div>
