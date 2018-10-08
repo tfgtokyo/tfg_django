@@ -1,3 +1,17 @@
+body {
+    position: relative;
+    min-height: 100%;
+    background: #f5f5f5;
+    font-family: 'Source Sans Pro', Helvetica, Arial, '游ゴシック体', 'YuGothic', 'メイリオ', 'Meiryo', sans-serif;
+    font-size: 14px;
+    color: #333;
+    line-height: 1;
+}
+
+.offer-container {
+    background: #fff;
+}
+
 .searchbox {
     /* height: 40px; */
     overflow: hidden;
@@ -25,4 +39,34 @@
 .list-group {
     clear: both;
     padding-top: 10px;
+}
+
+.container {
+    clear: both;
+}
+
+.item {
+    padding-top: 1rem;
+}
+
+.title {
+    font-size: 1rem;
+    color: rgb(0, 0, 0);
+    font-weight: 600;
+}
+
+.content {
+    padding-top: 1rem;
+    clear: both;
+    font-size: 0.8rem;
+    color: rgb(0, 0, 0);
+    font-weight: normal;
+    line-height: 1.6em;
+}
+
+.collectionbtn {
+    background: #ff8833 url(../img/star-btn.png) no-repeat 15px center;
+    border: 1px solid #f5f5f5;
+    padding-left: 2.5rem;
+    /* border-radius: 20px; */
 }

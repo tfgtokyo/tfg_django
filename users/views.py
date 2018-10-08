@@ -4,7 +4,6 @@ from django.contrib.auth import login
 # Create your views here.
 from .forms import SignUpForm
 
-
 # def login(request):
 #     if request.method == "POST":
 #         pass

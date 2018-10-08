@@ -8,13 +8,10 @@
     {% for offer in offerList%}
     <a href="{% url 'offerDetail' offer.id %}" class="list-group-item list-group-item-action">
         <h2 class="font-weight-bold">{{offer.title}}</h2>
-        <p>公開日:{{offer.pub_time}}</p>
-        <p>{{offer.click_nums}}</p>
-        <p>{{offer.fav_nums}}</p>
-        <p>{{offer.apply_nums}}</p>
+        <p>公開日:{{offer.pub_time|date:'Y-m-d'}}</p>
+        <p>ビュー数:{{offer.click_nums}}&nbsp&nbspお気に入り数:{{offer.fav_nums}}&nbsp&nbsp応募数:{{offer.apply_nums}}</p>
     </a>
     {% endfor%}
-    {% endblock %}
 </div>
-
+{% endblock %}
 </html>

@@ -3,21 +3,162 @@
 
 <title>{% block title %}案件詳細{% endblock %}</title>
 
-{% block content %}
-<div class="list-group">
-    {{offerDetail.title}}
-    {{offerDetail.content}}
-    {{offerDetail.location}}
-    {{offerDetail.contract_period}}
-    {{offerDetail.required_skills}}
-    {{offerDetail.interview_times}}
-    {{offerDetail.work_hours}}
-    {{offerDetail.time_range}}
-    {{offerDetail.price}}
-    {{offerDetail.contract_type}}
-    {{offerDetail.remark}}
-</div>
-{% endblock %}
-</div>
 
-</html>
+{% block content %}
+<div class="content card offer-container text-dark">
+    <div class="card-body">
+        <h4 class="card-title">{{offerDetail.title}}</h4>
+
+        <div class="item">
+            <div>
+                <span class="title">内容</span>
+            </div>
+            <div>
+                <span class="content">{{offerDetail.content}}</span>
+            </div>
+        </div>
+
+        <div class="item">
+            <div>
+                <span class="title">勤務地</span>
+            </div>
+            <div>
+                <span class="content">{{offerDetail.location}}</span>
+            </div>
+        </div>
+
+        <div class="item">
+            <div>
+                <span class="title">契約期間</span>
+            </div>
+            <div>
+                <span class="content">{{offerDetail.contract_period}}</span>
+            </div>
+        </div>
+
+        <div class="item">
+            <div>
+                <span class="title">必須スキル</span>
+            </div>
+            <div>
+                <span class="content">{{offerDetail.required_skills}}</span>
+            </div>
+        </div>
+
+        <div class="item">
+            <div>
+                <span class="title">面接/商談回数</span>
+            </div>
+            <div>
+                <span class="content">{{offerDetail.interview_times}}</span>
+            </div>
+        </div>
+
+        <div class="item">
+            <div>
+                <span class="title">就業時間</span>
+            </div>
+            <div>
+                <span class="content">{{offerDetail.work_hours}}</span>
+            </div>
+        </div>
+
+        <div class="item">
+            <div>
+                <span class="title">時間幅</span>
+            </div>
+            <div>
+                <span class="content">{{offerDetail.time_range}}</span>
+            </div>
+        </div>
+
+        <div class="item">
+            <div>
+                <span class="title">発注単価</span>
+            </div>
+            <div>
+                <span class="content">{{offerDetail.price}}</span>
+            </div>
+        </div>
+
+        <div class="item">
+            <div>
+                <span class="title">契約形態</span>
+            </div>
+            <div>
+                <span class="content">{{offerDetail.contract_type}}</span>
+            </div>
+        </div>
+
+        <div class="item">
+            <div>
+                <span class="title">備考</span>
+            </div>
+            <div>
+                <span class="content">{{offerDetail.remark}}</span>
+            </div>
+        </div>
+
+        <div class="item">
+            <button type="button" class="btn btn-light item-button collectionbtn">お気に入り</button>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+                応募
+            </button>
+        </div>
+
+        <div class="modal fade" id="myModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">応募しますか？</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+
+                    <div class="modal-body">
+                        {{offerDetail.title}}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">確認</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">キャンセル
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function(){
+        $(".collectionbtn").on('click', function(){
+            add_fav($(this), {{offerDetail.id}});
+        });
+    });
+    
+    function add_fav(current_elem, fav_id) {
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url: "{% url 'add_fav' %}",
+            data: {
+                'fav_id': fav_id
+            },
+            async: true,
+            beforeSend:function (xhr, settings) {
+                xhr.setRequestHeader("X-CSRFToken", "{{csrf_token}}");
+            },
+            success: function (data) {
+                console.log(data);
+                console.log(current_elem);
+                if (data.status == 'fail') {
+                    if (data.msg == '用户未登录') {
+                        window.location.href = "{% url 'login' %}";
+                    } else {
+                        current_elem.text(data.msg);
+                    }
+                }
+            }
+        });
+    }
+    
+</script>
+{% endblock %}

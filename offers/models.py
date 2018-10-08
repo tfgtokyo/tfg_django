@@ -1,5 +1,5 @@
 from django.db import models
-
+from users.models import UserProfile
 # Create your models here.
 
 
@@ -62,3 +62,16 @@ class Offer(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class UserFavorite(models.Model):
+    user = models.ForeignKey(
+        UserProfile, verbose_name='ユーザー', on_delete=models.CASCADE)
+    fav_id = models.IntegerField(verbose_name='案件id')
+
+    class Meta:
+        verbose_name = "案件收藏"
+        verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return self.name
