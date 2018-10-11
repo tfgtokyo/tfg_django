@@ -100,7 +100,13 @@
         </div>
 
         <div class="item">
-            <button type="button" class="btn btn-light item-button collectionbtn">お気に入り</button>
+            <button type="button" class="btn item-button collectionbtn">
+                {% if has_fav %}
+                已收藏
+                {% else %}
+                收藏
+                {% endif %}
+            </button>
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
                 応募
             </button>
@@ -149,12 +155,14 @@
             success: function (data) {
                 console.log(data);
                 console.log(current_elem);
-                if (data.status == 'fail') {
-                    if (data.msg == '用户未登录') {
-                        window.location.href = "{% url 'login' %}";
-                    } else {
-                        current_elem.text(data.msg);
+                if(data.status == 'fail'){
+                    if(data.msg == '用户未登录'){
+                        window.location.href="{% url 'login' %}?next={{ request.path }}";
+                    }else{
+                        alert(data.msg)
                     }
+                }else if(data.status == 'success'){
+                    current_elem.text(data.msg)
                 }
             }
         });

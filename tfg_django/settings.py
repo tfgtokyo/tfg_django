@@ -26,7 +26,7 @@ SECRET_KEY = 'jsx(^=)#7lf+pcwfpcu7^&qd^y2*)9%3z#e&#38kdmuz2o$i3s'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.199.101']
+ALLOWED_HOSTS = ['192.168.199.101', '127.0.0.1']
 
 
 # Application definition
