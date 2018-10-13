@@ -32,10 +32,12 @@ class Offer(models.Model):
     OfferCategory = models.ForeignKey(
         OfferCategory, verbose_name='カテゴリ', null=True, blank=True, on_delete=models.SET_NULL)
     title = models.CharField(verbose_name='タイトル', max_length=30)
-    content = models.TextField(verbose_name='内容', max_length=500)
+    content = models.TextField(verbose_name='内容', max_length=200)
     location = models.CharField(verbose_name='勤務地', max_length=20)
     contract_period = models.CharField(verbose_name='契約期間', max_length=10)
-    required_skills = models.CharField(verbose_name='必須スキル', max_length=50)
+    required_skills = models.TextField(verbose_name='必須スキル', max_length=100)
+    plus_skills = models.TextField(verbose_name='尚可スキル', max_length=100)
+    work_phase = models.CharField(verbose_name='担当フェーズ', max_length=10)
     interview_times = models.IntegerField(verbose_name='商談回数', default=1)
     work_hours = models.CharField(verbose_name='就業時間', max_length=20)
     time_range = models.CharField(verbose_name='時間幅', max_length=20)
@@ -71,6 +73,19 @@ class UserFavorite(models.Model):
 
     class Meta:
         verbose_name = "案件收藏"
+        verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return self.name
+
+
+class UserApply(models.Model):
+    user = models.ForeignKey(
+        UserProfile, verbose_name='ユーザー', on_delete=models.CASCADE)
+    apply_id = models.IntegerField(verbose_name='案件id')
+
+    class Meta:
+        verbose_name = "案件応募"
         verbose_name_plural = verbose_name
 
     def __str__(self):

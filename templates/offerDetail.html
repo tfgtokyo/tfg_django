@@ -47,6 +47,24 @@
 
         <div class="item">
             <div>
+                <span class="title">尚可スキル</span>
+            </div>
+            <div>
+                <span class="content">{{offerDetail.plus_skills}}</span>
+            </div>
+        </div>
+
+        <div class="item">
+            <div>
+                <span class="title">担当フェーズ</span>
+            </div>
+            <div>
+                <span class="content">{{offerDetail.work_phase}}</span>
+            </div>
+        </div>
+
+        <div class="item">
+            <div>
                 <span class="title">面接/商談回数</span>
             </div>
             <div>
@@ -100,9 +118,19 @@
         </div>
 
         <div class="item">
-            <button type="button" class="btn btn-light item-button collectionbtn">お気に入り</button>
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+            <button type="button" class="btn collectionbtn">
+                {% if has_fav %}
+                已收藏
+                {% else %}
+                收藏
+                {% endif %}
+            </button>
+            <button type="button" class="btn btn-primary applybtn" data-toggle="modal" data-target="#myModal">
+                {% if has_apply %}
+                応募済
+                {% else %}
                 応募
+                {% endif %}
             </button>
         </div>
 
@@ -110,7 +138,13 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title">応募しますか？</h4>
+                    <h4 class="modal-title">
+                        {% if has_apply %}
+                        応募キャンセルしますか？
+                        {% else %}
+                        応募しますか？
+                        {% endif %}
+                    </h4>
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                     </div>
 
@@ -118,7 +152,7 @@
                         {{offerDetail.title}}
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">確認</button>
+                        <button type="button" class="btn btn-primary apply-confirm-btn" data-dismiss="modal">確認</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">キャンセル
                         </button>
                     </div>
@@ -128,12 +162,16 @@
     </div>
 </div>
 <script>
-    $(function(){
-        $(".collectionbtn").on('click', function(){
-            add_fav($(this), {{offerDetail.id}});
+    $(function () {
+        $(".collectionbtn").on('click', function () {
+            add_fav($(this), {{ offerDetail.id }});
+        });
+
+        $(".apply-confirm-btn").on('click', function () {
+            add_apply($(this), {{ offerDetail.id }});
         });
     });
-    
+
     function add_fav(current_elem, fav_id) {
         $.ajax({
             cache: false,
@@ -143,7 +181,7 @@
                 'fav_id': fav_id
             },
             async: true,
-            beforeSend:function (xhr, settings) {
+            beforeSend: function (xhr, settings) {
                 xhr.setRequestHeader("X-CSRFToken", "{{csrf_token}}");
             },
             success: function (data) {
@@ -151,14 +189,44 @@
                 console.log(current_elem);
                 if (data.status == 'fail') {
                     if (data.msg == '用户未登录') {
-                        window.location.href = "{% url 'login' %}";
+                        window.location.href = "{% url 'login' %}?next={{ request.path }}";
                     } else {
-                        current_elem.text(data.msg);
+                        alert(data.msg)
                     }
+                } else if (data.status == 'success') {
+                    current_elem.text(data.msg)
                 }
             }
         });
     }
-    
+
+    function add_apply(current_elem, apply_id) {
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url: "{% url 'add_apply' %}",
+            data: {
+                'apply_id': apply_id
+            },
+            async: true,
+            beforeSend: function (xhr, settings) {
+                xhr.setRequestHeader("X-CSRFToken", "{{csrf_token}}");
+            },
+            success: function (data) {
+                console.log(data);
+                console.log(current_elem);
+                if (data.status == 'fail') {
+                    if (data.msg == '用户未登录') {
+                        window.location.href = "{% url 'login' %}?next={{ request.path }}";
+                    } else {
+                        alert(data.msg)
+                    }
+                } else if (data.status == 'success') {
+                    $(".applybtn").text(data.msg);
+                    $(".modal-title").text(data.msg_dialog);
+                }
+            }
+        });
+    }
 </script>
 {% endblock %}
