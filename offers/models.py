@@ -77,3 +77,16 @@ class UserFavorite(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class UserApply(models.Model):
+    user = models.ForeignKey(
+        UserProfile, verbose_name='ユーザー', on_delete=models.CASCADE)
+    apply_id = models.IntegerField(verbose_name='案件id')
+
+    class Meta:
+        verbose_name = "案件応募"
+        verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return self.name

@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.views.generic import View
-from .models import OfferCategory, Offer, UserFavorite
+from .models import OfferCategory, Offer, UserFavorite, UserApply
 # Create your views here.
 
 
@@ -34,11 +34,14 @@ class OfferDetailView(View):
         offerDetail.click_nums += 1
         offerDetail.save()
         has_fav = False
+        has_apply = False
         if request.user.is_authenticated:
             if UserFavorite.objects.filter(user=request.user, fav_id=offerDetail.id):
                 has_fav = True
+            if UserApply.objects.filter(user=request.user, apply_id=offerDetail.id):
+                has_apply = True
 
-        return render(request, "offerDetail.html", {'offerDetail': offerDetail, 'has_fav':has_fav})
+        return render(request, "offerDetail.html", {'offerDetail': offerDetail, 'has_fav':has_fav, 'has_apply':has_apply})
 
 
 class AddFavView(View):
@@ -66,3 +69,29 @@ class AddFavView(View):
                 return HttpResponse('{"status":"success","msg":"已收藏"}', content_type='application/json')
             else:
                 return HttpResponse('{"status":"fail","msg":"收藏出错"}', content_type='application/json')
+
+class AddApplyView(View):
+    def post(self, request):
+
+        apply_id = request.POST.get('apply_id', 0)
+
+        if not request.user.is_authenticated:
+            return HttpResponse('{"status":"fail","msg":"用户未登录"}', content_type='application/json')
+
+        exist_records = UserApply.objects.filter(
+            user=request.user, apply_id=int(apply_id))
+
+        if exist_records:
+            exist_records.delete()
+            has_apply = False
+            return HttpResponse('{"status":"success","msg":"応募","msg_dialog":"応募しますか？"}', content_type='application/json')
+        else:
+            user_apply = UserApply()
+            if int(apply_id) > 0:
+                user_apply.user = request.user
+                user_apply.apply_id = int(apply_id)
+                user_apply.save()
+                has_apply = True
+                return HttpResponse('{"status":"success","msg":"応募済","msg_dialog":"応募キャンセルしますか？"}', content_type='application/json')
+            else:
+                return HttpResponse('{"status":"fail","msg":"応募出错"}', content_type='application/json')

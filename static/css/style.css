@@ -65,9 +65,16 @@ body {
 }
 
 .collectionbtn {
-    background: #ff8833 url(../img/star-btn.png) no-repeat 15px center;
+    color: #fff;
+    background: #ff8833 url(../img/star-btn.png) no-repeat 12px center;
     border: 1px solid #f5f5f5;
     padding-left: 2.5rem;
     /* border-radius: 20px; */
     box-shadow: none !important;
+    width: 100px;
+}
+
+.applybtn {
+    box-shadow: none !important;
+    width: 100px;
 }
