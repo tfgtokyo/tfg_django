@@ -100,8 +100,8 @@
         <div class="container">
             <section class="offer-container text-left py-3">
                 <div class="searchbox fr col-lg-4 col-md-6 col-sm-8">
-                    <input id="search_keywords" class="fl" type="text" value="" placeholder="検索..." />
-                    <img class="search_btn fr" id="jsSearchBtn" src="{% static 'img/search_btn.png'%}" />
+                    <input id="search_keywords" class="fl" type="text" value="" placeholder="検索..." onkeypress="clickEnterBtn(event)"/>
+                    <img class="search_btn fr" id="jsSearchBtn" src="{% static 'img/search_btn.png'%}"/>
                 </div>
                 {% block content %}
                 {% endblock %}
@@ -116,5 +116,25 @@
     </footer>
     {% endblock body %}
 </body>
+<script>
+    $(function(){
+        $('#jsSearchBtn').on('click',function(){
+            search_click()
+        });
+    });
 
+    function clickEnterBtn(event){
+        if (event.keyCode==13) {
+            search_click();
+        }
+    }
+    function search_click() {
+        search_keywords = $("#search_keywords").val();
+        if(search_keywords == "") {
+            return;
+        }
+        request_url = "/offerSearch/?kw=" + search_keywords;
+        window.location.href = request_url;
+    }
+</script>
 </html>

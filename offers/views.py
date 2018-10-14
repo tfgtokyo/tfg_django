@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.views.generic import View
+from django.db.models import Q
 from .models import OfferCategory, Offer, UserFavorite, UserApply
 # Create your views here.
 
@@ -18,6 +19,14 @@ class CategoryListView(View):
     def get(self, request):
         offerCategories = OfferCategory.objects.all().order_by("-count")
         return render(request, "index.html", {'offerCategories': offerCategories})
+
+
+class OfferSearchListView(View):
+    def get(self, request):
+        kw = request.GET.get('kw', '')
+        if kw:
+            offerSearchList = Offer.objects.all().filter(isActive=0).filter(Q(title__icontains=kw) | Q(content__icontains=kw) | Q(location__icontains=kw)).order_by("-pub_time")
+        return render(request, "offerList.html", {'offerList': offerSearchList, 'kw':kw})
 
 
 class OfferListView(View):

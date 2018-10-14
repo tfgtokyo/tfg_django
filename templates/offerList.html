@@ -5,6 +5,9 @@
 
 {% block content %}
 <div class="list-group">
+    {% if offerList|length == 0 %}
+    案件が見つかりません。
+    {% else %}
     {% for offer in offerList%}
     <a href="{% url 'offerDetail' offer.id %}" class="list-group-item list-group-item-action">
         <h2 class="font-weight-bold">{{offer.title}}</h2>
@@ -12,6 +15,11 @@
         <p>ビュー数:{{offer.click_nums}}&nbsp&nbspお気に入り数:{{offer.fav_nums}}&nbsp&nbsp応募数:{{offer.apply_nums}}</p>
     </a>
     {% endfor%}
+    {% endif %}
 </div>
+<script>
+    $(function(){
+    });
+</script>
 {% endblock %}
 </html>
