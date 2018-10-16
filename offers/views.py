@@ -1,8 +1,9 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.views.generic import View
 from django.db.models import Q
-from .models import OfferCategory, Offer, UserFavorite, UserApply
+from offers.models import OfferCategory, Offer, UserFavorite, UserApply
+from django.core import serializers
 # Create your views here.
 
 
@@ -104,3 +105,11 @@ class AddApplyView(View):
                 return HttpResponse('{"status":"success","msg":"応募済","msg_dialog":"応募キャンセルしますか？"}', content_type='application/json')
             else:
                 return HttpResponse('{"status":"fail","msg":"応募出错"}', content_type='application/json')
+
+class GetCategoryView(View):
+    def post(self, request):
+        offerCategories = OfferCategory.objects.all().order_by("-count")
+        offerCategories_ajax = serializers.serialize("json", offerCategories)
+        print(offerCategories_ajax)
+        return JsonResponse(offerCategories_ajax, safe=False)
+        
