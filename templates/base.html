@@ -60,13 +60,9 @@
                                 トピック
                             </a>
                             <div class="dropdown-menu">
-                                <a href="#" class="dropdown-item">Java</a>
-                                <a href="#" class="dropdown-item">C#</a>
-                                <a href="#" class="dropdown-item">PHP</a>
-                                <a href="#" class="dropdown-item">Python</a>
-                                <a href="#" class="dropdown-item">Ruby</a>
-                                <a href="#" class="dropdown-item">Salesforce</a>
-                                <a href="#" class="dropdown-item">SAP</a>
+                                {% comment %} {% for offerCategory in offerCategories %}
+                                <a href="{% url 'offerList' offerCategory.id %}" class="dropdown-item">{{offerCategory.name}}</a>
+                                {% endfor%} {% endcomment %}
                             </div>
                         </li>
                     </ul>
@@ -121,6 +117,28 @@
         $('#jsSearchBtn').on('click',function(){
             search_click()
         });
+        
+        $(".nav-item").on("show.bs.dropdown", function(){
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url: "{% url 'get_category' %}",
+                async: true,
+                beforeSend: function (xhr, settings) {
+                    xhr.setRequestHeader("X-CSRFToken", "{{csrf_token}}");
+                },
+                success: function (data) {
+                    data = JSON.parse(data);
+                    console.log(data);
+                    $(".dropdown-menu").empty();
+                    $.each(data, function(index, item){
+                        $(".dropdown-menu").append(
+                            "<a href=\"/offerList/" + item.pk + "\" class='dropdown-item'>" + item.fields.name + "</a>"
+                        );
+                    });
+                }
+            });
+        });
     });
 
     function clickEnterBtn(event){
@@ -136,5 +154,8 @@
         request_url = "/offerSearch/?kw=" + search_keywords;
         window.location.href = request_url;
     }
-</script>
+
+
+
+    </script>
 </html>
