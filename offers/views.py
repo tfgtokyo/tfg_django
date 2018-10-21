@@ -72,6 +72,9 @@ class AddFavView(View):
         else:
             user_fav = UserFavorite()
             if int(fav_id) > 0:
+                offerDetail = Offer.objects.get(id=int(fav_id))
+                offerDetail.fav_nums += 1
+                offerDetail.save()
                 user_fav.user = request.user
                 user_fav.fav_id = int(fav_id)
                 user_fav.save()
@@ -98,6 +101,9 @@ class AddApplyView(View):
         else:
             user_apply = UserApply()
             if int(apply_id) > 0:
+                offerDetail = Offer.objects.get(id=int(apply_id))
+                offerDetail.apply_nums += 1
+                offerDetail.save()
                 user_apply.user = request.user
                 user_apply.apply_id = int(apply_id)
                 user_apply.save()
@@ -106,10 +112,35 @@ class AddApplyView(View):
             else:
                 return HttpResponse('{"status":"fail","msg":"応募出错"}', content_type='application/json')
 
+class ShowFavView(View):
+    def get(self, request):
+        fav_list = UserFavorite.objects.filter(user=request.user)
+        fav_id_list = []
+        for fav in fav_list:
+            fav_id_list.append(fav.fav_id)
+        offerList = Offer.objects.values(
+            'id', 'title', 'pub_time', 'click_nums', 'fav_nums', 'apply_nums').filter(id__in=fav_id_list).order_by("-pub_time")
+        return render(request, "offerList.html", {'offerList': offerList})
+
+
+class ShowApplyView(View):
+    def get(self, request):
+        apply_list = UserApply.objects.filter(user=request.user)
+        apply_id_list = []
+        for apply in apply_list:
+            apply_id_list.append(apply.apply_id)
+        offerList = Offer.objects.values(
+            'id', 'title', 'pub_time', 'click_nums', 'fav_nums', 'apply_nums').filter(id__in=apply_id_list).order_by("-pub_time")
+        return render(request, "offerList.html", {'offerList': offerList})
+
+
+
 class GetCategoryView(View):
     def post(self, request):
         offerCategories = OfferCategory.objects.all().order_by("-count")
         offerCategories_ajax = serializers.serialize("json", offerCategories)
-        print(offerCategories_ajax)
         return JsonResponse(offerCategories_ajax, safe=False)
-        
+
+class UserInfoView(View):
+    def get(self, request):
+        return render(request, 'usercenter.html')
