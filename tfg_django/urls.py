@@ -20,7 +20,7 @@ import xadmin
 from django.contrib.auth import views as auth_views
 from django.views.generic import TemplateView
 from users import views as users_views
-from offers.views import CategoryListView, OfferListView, OfferDetailView, AddFavView, AddApplyView, OfferSearchListView, GetCategoryView
+from offers.views import CategoryListView, OfferListView, OfferDetailView, AddFavView, AddApplyView, ShowFavView, ShowApplyView, OfferSearchListView, GetCategoryView, UserInfoView
 
 urlpatterns = [
     # path('admin/', admin.site.urls),
@@ -57,10 +57,13 @@ urlpatterns = [
 
     path('add_fav/', AddFavView.as_view(), name="add_fav"),
     path('add_apply/', AddApplyView.as_view(), name="add_apply"),
+    path('show_fav/', ShowFavView.as_view(), name="show_fav"),
+    path('show_apply/', ShowApplyView.as_view(), name="show_apply"),
 
     re_path('offerSearch/',
         OfferSearchListView.as_view(), name="offerSearch"),
 
     path('get_category/', GetCategoryView.as_view(), name="get_category"),
-        
+
+    path('info/', UserInfoView.as_view(), name="info"), 
 ]

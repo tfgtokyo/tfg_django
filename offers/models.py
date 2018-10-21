@@ -29,7 +29,7 @@ ACTIVE = (
 
 
 class Offer(models.Model):
-    OfferCategory = models.ForeignKey(
+    offerCategory = models.ForeignKey(
         OfferCategory, verbose_name='カテゴリ', null=True, blank=True, on_delete=models.SET_NULL)
     title = models.CharField(verbose_name='タイトル', max_length=30)
     content = models.TextField(verbose_name='内容', max_length=200)
@@ -48,11 +48,11 @@ class Offer(models.Model):
     isActive = models.CharField(
         verbose_name="有効", max_length=1, choices=ACTIVE, default="0")
     pub_time = models.DateTimeField(verbose_name='公開日', null=True)
-    create_date = models.DateTimeField(verbose_name='作成日', auto_now=True)
-    create_by = models.CharField(verbose_name='作成者', max_length=30)
+    create_date = models.DateTimeField(verbose_name='作成日', auto_now_add=True)
+    create_by = models.CharField(verbose_name='作成者', max_length=50)
     last_modified_date = models.DateTimeField(
         verbose_name='最終更新日', auto_now=True)
-    last_modified_by = models.CharField(verbose_name='最終更新者', max_length=30)
+    last_modified_by = models.CharField(verbose_name='最終更新者', max_length=50)
 
     click_nums = models.IntegerField(verbose_name='点击数', default=0)
     fav_nums = models.IntegerField(verbose_name='收藏数', default=0)
@@ -70,6 +70,8 @@ class UserFavorite(models.Model):
     user = models.ForeignKey(
         UserProfile, verbose_name='ユーザー', on_delete=models.CASCADE)
     fav_id = models.IntegerField(verbose_name='案件id')
+    create_date = models.DateTimeField(verbose_name='作成日', auto_now=True)
+
 
     class Meta:
         verbose_name = "案件收藏"
@@ -83,7 +85,8 @@ class UserApply(models.Model):
     user = models.ForeignKey(
         UserProfile, verbose_name='ユーザー', on_delete=models.CASCADE)
     apply_id = models.IntegerField(verbose_name='案件id')
-
+    create_date = models.DateTimeField(verbose_name='作成日', auto_now=True)
+    
     class Meta:
         verbose_name = "案件応募"
         verbose_name_plural = verbose_name
