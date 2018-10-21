@@ -54,15 +54,12 @@
 
                 <div class="collapse navbar-collapse" id="mainMenu">
                     <ul class="navbar-nav mr-auto">
-                        <li class="nav-item">
+                        <li id="topic" class="nav-item">
                             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
                                 aria-expanded="false">
                                 トピック
                             </a>
-                            <div class="dropdown-menu">
-                                {% comment %} {% for offerCategory in offerCategories %}
-                                <a href="{% url 'offerList' offerCategory.id %}" class="dropdown-item">{{offerCategory.name}}</a>
-                                {% endfor%} {% endcomment %}
+                            <div id="topicDiv" class="dropdown-menu">
                             </div>
                         </li>
                     </ul>
@@ -74,10 +71,12 @@
                                 {{ user.username }}
                             </a>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userMenu">
-                                <a class="dropdown-item" href="#">My account</a>
-                                <a class="dropdown-item" href="{% url 'password_change' %}">Change password</a>
+                                <a class="dropdown-item" href="{% url 'info' %}">アカウント設定</a>
+                                <a class="dropdown-item" href="{% url 'show_fav' %}">気になる案件</a>
+                                <a class="dropdown-item" href="{% url 'show_apply' %}">応募済案件</a>
+                                <a class="dropdown-item" href="{% url 'password_change' %}">パスワード変更</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="{% url 'logout' %}">Log out</a>
+                                <a class="dropdown-item" href="{% url 'logout' %}">ログアウト</a>
                             </div>
                         </li>
                     </ul>
@@ -118,7 +117,7 @@
             search_click()
         });
         
-        $(".nav-item").on("show.bs.dropdown", function(){
+        $("#topic").on("show.bs.dropdown", function(){
             $.ajax({
                 cache: false,
                 type: "POST",
@@ -130,9 +129,9 @@
                 success: function (data) {
                     data = JSON.parse(data);
                     console.log(data);
-                    $(".dropdown-menu").empty();
+                    $("#topicDiv").empty();
                     $.each(data, function(index, item){
-                        $(".dropdown-menu").append(
+                        $("#topicDiv").append(
                             "<a href=\"/offerList/" + item.pk + "\" class='dropdown-item'>" + item.fields.name + "</a>"
                         );
                     });
